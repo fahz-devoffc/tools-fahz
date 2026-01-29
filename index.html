@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>All Tools By Fahz</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+*{box-sizing:border-box;font-family:system-ui,Segoe UI,sans-serif}
+body{margin:0;background:#0b0f1a;color:#fff;overflow-x:hidden}
+
+/* TOP BAR */
+.topbar{height:56px;background:#020617;display:flex;align-items:center;padding:0 14px;border-bottom:1px solid rgba(255,255,255,.08)}
+.menu-btn{font-size:22px;cursor:pointer;margin-right:12px}
+.title{font-weight:600;letter-spacing:.5px}
+
+/* SIDEBAR */
+.sidebar{position:fixed;top:0;left:-260px;width:260px;height:100vh;background:#020617;border-right:1px solid rgba(255,255,255,.08);transition:.3s;z-index:10;padding-top:56px}
+.sidebar.active{left:0}
+.sidebar button{width:100%;padding:14px;border:none;background:none;color:#fff;text-align:left;cursor:pointer;font-size:14px;border-bottom:1px solid rgba(255,255,255,.05)}
+.sidebar button:hover{background:rgba(255,255,255,.05)}
+
+/* MAIN */
+.main{padding:20px}
+.card{max-width:480px;margin:auto;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:18px;box-shadow:0 0 20px rgba(0,0,0,.4)}
+
+h1{font-size:20px;margin-bottom:6px}
+p{font-size:12px;opacity:.7}
+
+input,textarea{width:100%;padding:10px;border-radius:8px;border:none;background:rgba(255,255,255,.08);color:#fff;margin:8px 0}
+button.action{width:100%;padding:12px;border:none;border-radius:10px;background:linear-gradient(135deg,#22c55e,#16a34a);font-weight:600;cursor:pointer}
+.result{margin-top:12px;font-size:12px;background:rgba(0,0,0,.3);padding:10px;border-radius:8px;max-height:160px;overflow:auto}
+
+@media(min-width:768px){
+.main{padding:40px}
+.card{max-width:520px}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="menu-btn" onclick="toggleSidebar()">☰</div>
+  <div class="title">Free Tools By Fahz</div>
+</div>
+
+<div class="sidebar" id="sidebar">
+  <button onclick="loadTool('welcome')">Welcome</button>
+  <button onclick="loadTool('ngl')">Spam NGL</button>
+  <button onclick="loadTool('spotifydl')">Spotify Downloader</button>
+  <button onclick="loadTool('searchtiktok')">Search Tiktok</button>
+  <button onclick="loadTool('searchspotify')">Search Spotify</button>
+  <button onclick="loadTool('hd')">HD Image</button>
+  <button onclick="loadTool('pin')">Pinterest Downloader</button>
+  <button onclick="loadTool('brat')">Stiker Anomali Maker</button>
+  <button onclick="loadTool('iqc')">iqc iphone</button>
+  <button onclick="loadTool('ig')">Instagram Downloader</button>
+</div>
+
+<div class="main" id="main"></div>
+
+<script>
+const main = document.getElementById('main');
+
+function toggleSidebar(){
+ document.getElementById('sidebar').classList.toggle('active');
+}
+
+function template(title,inputs,apiBuilder){
+ let html = `<div class='card'><h1>${title}</h1><p>Tools By Fahz</p>`;
+ inputs.forEach(i=>{
+   html+=`<input id='${i.id}' placeholder='${i.ph}'>`;
+ });
+ html+=`<button class='action' onclick='runTool("${apiBuilder}")'>Proses</button><div class='result' id='result'>Idle...</div></div>`;
+ main.innerHTML = html;
+}
+
+function loadTool(tool){
+ toggleSidebar();
+ if(tool==='welcome'){
+ main.innerHTML = `<div class='card'><h1>Welcome 👋</h1><p>Tools By Fahz</p><p>Platform tools pribadi berbasis API. UI Human Made. Smooth. Mobile Friendly.</p></div>`;
+ }
+ if(tool==='ngl') template('Spam NGL',[{id:'u',ph:'username'},{id:'t',ph:'text'},{id:'a',ph:'amount'}],'ngl');
+ if(tool==='spotifydl') template('Spotify Downloader',[{id:'u',ph:'spotify url'}],'spotifydl');
+ if(tool==='searchtiktok') template('Search Tiktok',[{id:'q',ph:'keyword'}],'searchtiktok');
+ if(tool==='searchspotify') template('Search Spotify',[{id:'q',ph:'keyword'}],'searchspotify');
+ if(tool==='hd') template('HD Image',[{id:'u',ph:'image url'}],'hd');
+ if(tool==='pin') template('Pinterest Downloader',[{id:'u',ph:'pin url'}],'pin');
+ if(tool==='brat') template('Stiker Anomali Maker',[{id:'t',ph:'text'},{id:'w',ph:'words color'}],'brat');
+ if(tool==='iqc') template('iqc iphone',[{id:'t',ph:'text'},{id:'time',ph:'time'}],'iqc');
+ if(tool==='ig') template('Instagram Downloader',[{id:'u',ph:'instagram url'}],'ig');
+}
+
+async function runTool(type){
+ const r = document.getElementById('result');
+ let url='';
+ if(type==='ngl') url=`https://api.zenitsu.web.id/api/tools/nglspam?username=${u.value}&text=${t.value}&amount=${a.value}`;
+ if(type==='spotifydl') url=`https://api.zenitsu.web.id/api/download/spotify?url=${u.value}`;
+ if(type==='searchtiktok') url=`https://api.zenitsu.web.id/api/search/tiktok?q=${q.value}`;
+ if(type==='searchspotify') url=`https://api.zenitsu.web.id/api/search/spotify?q=${q.value}`;
+ if(type==='hd') url=`https://api.zenitsu.web.id/api/tools/hd?imgUrl=${u.value}`;
+ if(type==='pin') url=`https://api.zenitsu.web.id/api/download/pin?url=${u.value}`;
+ if(type==='brat') url=`https://api.zenitsu.web.id/api/maker/brat?text=${t.value}&words=${w.value}`;
+ if(type==='iqc') url=`https://api.zenitsu.web.id/api/maker/iqc?text=${t.value}&time=${time.value}`;
+ if(type==='ig') url=`https://api.zenitsu.web.id/api/download/instagram?url=${u.value}`;
+
+ r.innerText='Loading...';
+ try{
+ const res = await fetch(url);
+ const data = await res.text();
+ r.innerText=data;
+ }catch(e){r.innerText='Error: '+e.message}
+}
+
+loadTool('welcome');
+</script>
+
+</body>
+</html>
